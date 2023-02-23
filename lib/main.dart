@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -56,17 +59,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _likes = 0;
+  late final DatabaseReference _likesRef;
+  late StreamSubscription<DatabaseEvent> _likesSubscription;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  init() async {
+    _likesRef = FirebaseDatabase.instance.ref('likes');
+    try {
+      final likeSnapshot = await _likesRef.get();
+      _likes = likeSnapshot.value as int;
+    } catch (err) {
+      debugPrint(err.toString());
+    }
+
+    _likesSubscription = _likesRef.onValue.listen((DatabaseEvent event) {
+      setState(() {
+        _likes = (event.snapshot.value ?? 0) as int;
+      });
     });
+  }
+
+  _like() async {
+    await _likesRef.set(ServerValue.increment(1));
+  }
+
+  @override
+  void dispose() {
+    _likesSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
   }
 
   @override
@@ -107,14 +134,14 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              '$_likes',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _like,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

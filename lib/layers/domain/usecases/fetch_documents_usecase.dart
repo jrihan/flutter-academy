@@ -8,12 +8,13 @@ abstract class FetchDocumentsUseCase {
 }
 
 class FetchDocumentUseCaseImpl implements FetchDocumentsUseCase {
-  final DocumentRepository repository;
+  final DocumentRepository _repository;
 
-  FetchDocumentUseCaseImpl(this.repository);
+  FetchDocumentUseCaseImpl({required DocumentRepository repository})
+      : _repository = repository;
 
   @override
   Future<Either<Exception, List<DocumentEntity>>> call() {
-    return repository.fetchDocuments();
+    return _repository.fetchDocuments();
   }
 }

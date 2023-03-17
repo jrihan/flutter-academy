@@ -8,12 +8,13 @@ abstract class CreateDocumentUseCase {
 }
 
 class CreateDocumentUseCaseImpl implements CreateDocumentUseCase {
-  final DocumentRepository repository;
+  final DocumentRepository _repository;
 
-  CreateDocumentUseCaseImpl(this.repository);
+  CreateDocumentUseCaseImpl({required DocumentRepository repository})
+      : _repository = repository;
 
   @override
   Future<Either<Exception, Unit>> call(DocumentEntity document) {
-    return repository.createDocument(document);
+    return _repository.createDocument(document);
   }
 }

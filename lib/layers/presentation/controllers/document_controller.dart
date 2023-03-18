@@ -1,6 +1,8 @@
+import 'package:academy/layers/domain/entities/document_entity.dart';
 import 'package:academy/layers/domain/usecases/create_document_usecase.dart';
 import 'package:academy/layers/domain/usecases/fetch_documents_usecase.dart';
 import 'package:mobx/mobx.dart';
+import 'package:dartz/dartz.dart';
 
 part 'document_controller.g.dart';
 
@@ -12,8 +14,25 @@ abstract class _DocumentControllerBase with Store {
 
   _DocumentControllerBase(
       {required CreateDocumentUseCase createDocumentUseCase,
-      required FetchDocumentUseCaseImpl fetchDocumentUseCaseImpl}) {
+      required FetchDocumentsUseCase fetchDocumentUseCase}) {
     _createDocumentUseCase = createDocumentUseCase;
-    _fetchDocumentsUseCase = fetchDocumentUseCaseImpl;
+    _fetchDocumentsUseCase = fetchDocumentUseCase;
+  }
+
+  @observable
+  List<DocumentEntity> documents = [];
+
+  @action
+  Future<void> getAllDocuments() async {
+    final Either<Exception, List<DocumentEntity>> _response =
+        await _fetchDocumentsUseCase.call();
+    _response.fold(
+      (Exception error) {
+        print(error);
+      },
+      (List<DocumentEntity> docs) {
+        documents = docs;
+      },
+    );
   }
 }

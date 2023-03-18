@@ -16,24 +16,24 @@ setupProviders() {
 
   if (!getIt.isRegistered<DocumentRepository>()) {
     getIt.registerFactory<DocumentRepository>(
-        () => DocumentRepositoryImpl(dataSource: getIt()));
+        () => DocumentRepositoryImpl(dataSource: getIt<DocumentDataSource>()));
   }
 
   if (!getIt.isRegistered<FetchDocumentsUseCase>()) {
-    getIt.registerFactory<FetchDocumentsUseCase>(
-        () => FetchDocumentUseCaseImpl(repository: getIt()));
+    getIt.registerFactory<FetchDocumentsUseCase>(() =>
+        FetchDocumentUseCaseImpl(repository: getIt<DocumentRepository>()));
   }
 
   if (!getIt.isRegistered<CreateDocumentUseCase>()) {
-    getIt.registerFactory<CreateDocumentUseCase>(
-        () => CreateDocumentUseCaseImpl(repository: getIt()));
+    getIt.registerFactory<CreateDocumentUseCase>(() =>
+        CreateDocumentUseCaseImpl(repository: getIt<DocumentRepository>()));
   }
 
   if (!getIt.isRegistered<DocumentController>()) {
     getIt.registerFactory<DocumentController>(
       () => DocumentController(
-        createDocumentUseCase: getIt(),
-        fetchDocumentUseCaseImpl: getIt(),
+        createDocumentUseCase: getIt<CreateDocumentUseCase>(),
+        fetchDocumentUseCase: getIt<FetchDocumentsUseCase>(),
       ),
     );
   }

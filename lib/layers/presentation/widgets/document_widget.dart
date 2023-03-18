@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:academy/layers/domain/entities/document_entity.dart';
+
 class DocumentWidget extends StatelessWidget {
-  const DocumentWidget({Key? key}) : super(key: key);
+  const DocumentWidget(
+    this.document,
+  );
+
+  final DocumentEntity document;
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +21,9 @@ class DocumentWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Pesca Predatória e Meio Ambiente',
-                  style: TextStyle(
+                Text(
+                  document.title,
+                  style: const TextStyle(
                       fontSize: 22.0,
                       fontWeight: FontWeight.w600,
                       color: Colors.blue),
@@ -25,16 +31,16 @@ class DocumentWidget extends StatelessWidget {
                 const SizedBox(
                   height: 5.0,
                 ),
-                const Text(
-                    'pesca predatória e o meio ambiente: fiscalização e preservação da natureza resumo: o trabalho a seguir disserta sobre a pesca predatória e o meio ambiente, enfatizando o perigo da prática. 1. delimitação do tema...'),
+                Text(document.description),
                 const SizedBox(
                   height: 10.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('UFPE, ECONOMIA,TCC'),
-                    Text('RUBENS, JOSÉ')
+                  children: [
+                    Text(
+                        '${document.college}, ${document.course}, ${document.type}'),
+                    Text(document.author)
                   ],
                 ),
               ],

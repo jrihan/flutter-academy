@@ -16,8 +16,15 @@ class DocumentDataSourceImpl implements DocumentDataSource {
   }
 
   @override
-  Future<List<DocumentEntity>> fetchDocuments() {
-    // TODO: implement fetchDocuments
-    throw UnimplementedError();
+  Future<List<DocumentEntity>> fetchDocuments() async {
+    try {
+      final response = await docI.get();
+      final documents = response.docs
+          .map((snapshot) => DocumentEntity.fromJson(snapshot.data()))
+          .toList();
+      return documents;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -5,6 +5,7 @@ class DocumentEntity {
   final String url;
   final String author;
   final String college;
+  final String course;
 
   DocumentEntity({
     required this.title,
@@ -13,6 +14,7 @@ class DocumentEntity {
     required this.url,
     required this.author,
     required this.college,
+    required this.course,
   });
 
   Map<String, dynamic> toJson() => {
@@ -21,15 +23,17 @@ class DocumentEntity {
         'type': type,
         'url': url,
         'author': author,
-        'college': college
+        'college': college,
+        'course': course
       };
 
   static DocumentEntity fromJson(Map<String, dynamic> json) => DocumentEntity(
-        title: json['title'],
-        description: json['description'],
-        type: json['type'],
-        url: json['url'],
-        author: json['author'],
-        college: json['college'],
+        title: json['title'] ?? '',
+        description: json['description'] ?? '',
+        type: json['type'] ?? '',
+        url: json['url'] ?? '',
+        author: json['author'] ?? '',
+        college: json['college'] ?? '',
+        course: json['course'] ?? '',
       );
 }

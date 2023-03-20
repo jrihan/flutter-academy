@@ -45,6 +45,22 @@ dependencies:
   flutter_mobx: ^2.0.6+5
   go_router: ^3.1.1
   url_launcher: ^6.1.8
+  flutter_native_splash: ^2.1.6
+  flutter_launcher_icons: ^0.11.0
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "assets/app/splash.png"
+  android: true
+  ios: true
+
+flutter_icons:
+  image_path: "assets/app/icon.png"
+  ios: true
+  remove_alpha_ios: true
+  android: "launcher_icon"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/app/icon-android.png"
 
 dev_dependencies:
   flutter_test:

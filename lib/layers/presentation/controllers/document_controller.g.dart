@@ -25,6 +25,22 @@ mixin _$DocumentController on _DocumentControllerBase, Store {
     });
   }
 
+  late final _$isLoadingAtom =
+      Atom(name: '_DocumentControllerBase.isLoading', context: context);
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   late final _$getAllDocumentsAsyncAction =
       AsyncAction('_DocumentControllerBase.getAllDocuments', context: context);
 
@@ -36,7 +52,8 @@ mixin _$DocumentController on _DocumentControllerBase, Store {
   @override
   String toString() {
     return '''
-documents: ${documents}
+documents: ${documents},
+isLoading: ${isLoading}
     ''';
   }
 }

@@ -5,6 +5,7 @@ import 'package:academy/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
+        actions: const [
           Text('1.430 resultados', style: TextStyle(color: Colors.grey)),
         ],
         backgroundColor: Constants.colors.background,
@@ -41,18 +42,30 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: false,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.push('/create'),
+        child: const Icon(Icons.add),
+      ),
       backgroundColor: Constants.colors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Observer(builder: (BuildContext context) {
-            return ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(height: 10),
-              itemCount: _controller.documents.length,
-              itemBuilder: (context, index) =>
-                  DocumentWidget(_controller.documents[index]),
-            );
-          }),
+          child: Observer(
+            builder: (BuildContext context) {
+              if (_controller.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return ListView.separated(
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10),
+                itemCount: _controller.documents.length,
+                itemBuilder: (context, index) =>
+                    DocumentWidget(_controller.documents[index]),
+              );
+            },
+          ),
         ),
       ),
     );

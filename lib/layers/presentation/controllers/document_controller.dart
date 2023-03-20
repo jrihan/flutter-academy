@@ -22,8 +22,12 @@ abstract class _DocumentControllerBase with Store {
   @observable
   List<DocumentEntity> documents = [];
 
+  @observable
+  bool isLoading = false;
+
   @action
   Future<void> getAllDocuments() async {
+    isLoading = true;
     final Either<Exception, List<DocumentEntity>> _response =
         await _fetchDocumentsUseCase.call();
     _response.fold(
@@ -34,5 +38,6 @@ abstract class _DocumentControllerBase with Store {
         documents = docs;
       },
     );
+    isLoading = false;
   }
 }

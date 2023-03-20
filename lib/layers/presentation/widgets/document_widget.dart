@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:academy/layers/domain/entities/document_entity.dart';
+import 'package:go_router/go_router.dart';
 
 class DocumentWidget extends StatelessWidget {
   const DocumentWidget(
@@ -52,10 +53,7 @@ class DocumentWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: GestureDetector(
-                onTap: () {
-                  const snackBar = SnackBar(content: Text('Tap'));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                },
+                onTap: () => context.push('/details'),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [

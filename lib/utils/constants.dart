@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CColors {
   Color background = const Color(0xfff0f0f5);
-  Color primary = const Color(0x006BFF);
+  Color primary = const Color(0x006BFFFF);
 }
 
 class CImages {

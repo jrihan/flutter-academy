@@ -1,3 +1,4 @@
+import 'package:academy/layers/domain/entities/document_entity.dart';
 import 'package:academy/layers/presentation/screens/create_screen.dart';
 import 'package:academy/layers/presentation/screens/details_screen.dart';
 import 'package:academy/layers/presentation/screens/home_screen.dart';
@@ -12,7 +13,10 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: '/details',
-      builder: (context, state) => const DetailsScreen(),
+      builder: (context, state) {
+        DocumentEntity document = state.extra as DocumentEntity;
+        return DetailsScreen(document);
+      },
     ),
     GoRoute(
       path: '/create',

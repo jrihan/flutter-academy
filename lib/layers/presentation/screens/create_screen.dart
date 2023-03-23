@@ -1,4 +1,7 @@
+import 'package:academy/injection/dependencies_injection.dart';
+import 'package:academy/layers/presentation/controllers/document_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class CreateScreen extends StatefulWidget {
   const CreateScreen({Key? key}) : super(key: key);
@@ -8,11 +11,24 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormBuilderState>();
+  final DocumentController _controller = getIt<DocumentController>();
+
+  void _createDocument() {
+    _formKey.currentState?.save();
+    if (_formKey.currentState!.validate()) {
+      final formData = _formKey.currentState?.value;
+
+      print(formData);
+      // formData = { 'field1': ..., 'field2': ..., 'field3': ... }
+      // do something with the form data
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -30,18 +46,32 @@ class _CreateScreenState extends State<CreateScreen> {
         builder: (context, constraints) => SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Form(
+            child: FormBuilder(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TextFormField(
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 18),
+                    child: Text(
+                      'Criar Documento',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  FormBuilderTextField(
+                    name: 'title',
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Título do Documento',
                     ),
                   ),
                   const SizedBox(height: 8),
-                  TextFormField(
+                  FormBuilderTextField(
+                    name: 'description',
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Descrição',
@@ -51,27 +81,47 @@ class _CreateScreenState extends State<CreateScreen> {
                     minLines: 8,
                   ),
                   const SizedBox(height: 8),
-                  TextFormField(
+                  FormBuilderTextField(
+                    name: 'url',
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Link do arquivo',
                     ),
                   ),
-                  Row(),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: FormBuilderTextField(
+                          name: 'college',
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Faculdade',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: FormBuilderTextField(
+                          name: 'course',
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Curso',
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
-                        }
-                      },
-                      child: const Text('Submit'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(
+                            0, 45), // put the width and height you want
+                      ),
+                      onPressed: _createDocument,
+                      child: const Text('Enviar',
+                          style: TextStyle(fontSize: 20.0)),
                     ),
                   ),
                 ],

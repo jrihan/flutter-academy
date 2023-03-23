@@ -53,7 +53,7 @@ class DocumentWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: GestureDetector(
-                onTap: () => context.push('/details'),
+                onTap: () => context.push('/details', extra: document),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [

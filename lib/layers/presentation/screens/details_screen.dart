@@ -1,9 +1,12 @@
+import 'package:academy/layers/domain/entities/document_entity.dart';
 import 'package:academy/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key}) : super(key: key);
+  const DetailsScreen(this.document);
+
+  final DocumentEntity document;
 
   Future<void> _launchUrl(String _url) async {
     if (!await launchUrl(Uri.parse(_url))) {
@@ -14,6 +17,7 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -34,9 +38,9 @@ class DetailsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Conceitos Fundamentais da Economia',
-                  style: TextStyle(
+                Text(
+                  document.title,
+                  style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.blue,
@@ -47,16 +51,16 @@ class DetailsScreen extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Text(
-                      'UFPE, ECONOMIA, TCC',
-                      style: TextStyle(
+                      '${document.college}, ${document.course}, ${document.type}',
+                      style: const TextStyle(
                         color: Colors.blue,
                       ),
                     ),
                     Text(
-                      'RUBENS, JOSÉ',
-                      style: TextStyle(
+                      document.author,
+                      style: const TextStyle(
                         color: Colors.blue,
                       ),
                     ),
@@ -65,14 +69,13 @@ class DetailsScreen extends StatelessWidget {
                 const SizedBox(
                   height: 8.0,
                 ),
-                const Text(
-                    'O tema aqui abordado trata-se da fiscalização da pesca predatória, uma ação que ocorre da fiscalização no Rio Branco, esse rio é um afluente e berçário do Rio Guaporé, que é o segundo maior rio do estado de Rondônia, o Rio Branco nasce na Chapada dos Parecis o ponto mais alto do estado e vem descendo cortando terras muito férteis local em que existem muitas montanhas, com isso geram-se muito oxigênio na água, o rio ainda passa por todo o vale do Guaporé, que conta com de planícies alagadas, que é o local que se encontra o berçário, isso tudo ocorre antes de desaguar no Rio Guaporé.'),
+                Text(document.description),
                 const SizedBox(
                   height: 28.0,
                 ),
                 Center(
                   child: InkWell(
-                    onTap: () => _launchUrl('https://www.google.com'),
+                    onTap: () => _launchUrl(document.url),
                     customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),

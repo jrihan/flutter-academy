@@ -18,10 +18,17 @@ class _CreateScreenState extends State<CreateScreen> {
     _formKey.currentState?.save();
     if (_formKey.currentState!.validate()) {
       final formData = _formKey.currentState?.value;
+      _controller.createDocument(
+        docTitle: formData?["title"] as String,
+        docAuthor: formData?["author"] ?? "anonymous",
+        docCollege: formData?["college"] as String,
+        docCourse: formData?["course"] as String,
+        docDescription: formData?["description"] as String,
+        docType: formData?["type"] as String,
+        docUrl: formData?["url"] as String,
+      );
 
-      print(formData);
-      // formData = { 'field1': ..., 'field2': ..., 'field3': ... }
-      // do something with the form data
+      print(formData?["title"].toString());
     }
   }
 
@@ -111,6 +118,14 @@ class _CreateScreenState extends State<CreateScreen> {
                         ),
                       )
                     ],
+                  ),
+                  const SizedBox(height: 8),
+                  FormBuilderTextField(
+                    name: 'type',
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Tipo do Trabalho',
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),

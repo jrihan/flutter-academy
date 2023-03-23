@@ -40,4 +40,31 @@ abstract class _DocumentControllerBase with Store {
     );
     isLoading = false;
   }
+
+  Future<void> createDocument({
+    required String docTitle,
+    required String docDescription,
+    required String docType,
+    required String docUrl,
+    required String docAuthor,
+    required String docCollege,
+    required String docCourse,
+  }) async {
+    var _document = DocumentEntity(
+        title: docTitle,
+        description: docDescription,
+        type: docType,
+        url: docUrl,
+        author: docAuthor,
+        college: docCollege,
+        course: docCourse);
+    final Either<Exception, Unit> _response =
+        await _createDocumentUseCase.call(_document);
+    _response.fold(
+      (Exception error) {
+        print(error);
+      },
+      (Unit _) {},
+    );
+  }
 }
